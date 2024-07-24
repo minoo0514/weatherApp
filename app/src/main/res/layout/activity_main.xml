@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="가산동"
+                    android:text="신촌동"
                     android:textSize="35dp" />
 
             </LinearLayout>
