@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,9 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:gravity="left"
         android:text="비가 오는 하루에요. 외출할 때는 우산을 챙겨주세요."
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        tools:ignore="RtlHardcoded" />
 
     <View
         android:layout_width="match_parent"
@@ -35,14 +36,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -50,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/cloud_size"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
 
 
                 <TextView
@@ -58,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
@@ -67,14 +68,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -90,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -98,14 +99,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -121,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -129,14 +130,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -152,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -160,14 +161,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -183,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -191,14 +192,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -214,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -222,14 +223,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -245,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -253,14 +254,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -276,7 +277,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -284,14 +285,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -307,7 +308,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -315,14 +316,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -338,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -346,14 +347,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -369,7 +370,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -377,14 +378,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -400,7 +401,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -408,14 +409,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -431,21 +432,21 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -461,21 +462,21 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -491,7 +492,7 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -499,14 +500,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="오후 1시"
-                    android:textSize= "9dp"
+                    android:textSize= "9sp"
                     android:layout_marginBottom="10dp"/>
 
                 <ImageView
@@ -522,12 +523,9 @@
                     android:layout_height="wrap_content"
                     android:text="26°"
                     android:layout_gravity="center"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
-
-
-
 
         </LinearLayout>
 

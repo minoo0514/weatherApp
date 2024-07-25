@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather UI</string>
+    <string name="_27_25_29">27° / 25° 체감온도 29°</string>
+
 </resources>
