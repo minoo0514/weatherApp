@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
                 // 이동한 다음 사용안함으로 finish 처리
                 finish();
             }
-        }, 2000); // 시간 2초 이후 실행
+        }, 1000); // 시간 2초 이후 실행
     }
 }
 

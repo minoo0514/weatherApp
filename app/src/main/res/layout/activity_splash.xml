@@ -40,5 +40,4 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         android:textColor="@color/white"/>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

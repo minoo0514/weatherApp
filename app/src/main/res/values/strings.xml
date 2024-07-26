@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Weather UI</string>
-    <string name="_27_25_29">27° / 25° 체감온도 29°</string>
+    <string name="_27_25_29">27° / 25°</string>
+    <string name="particulateMatter">미세먼지</string>
+    <string name="Region_here">신촌동</string>
+    <string name="temp_realTime">27°</string>
+    <string name="weatherCondition_cloudy">흐림</string>
+    <string name="windChill_temp">체감온도 29°</string>
+    <string name="particulateMatter_inform">좋음(29ug/m^3)</string>
+    <string name="fineParticulateMatter">초미세먼지</string>
+    <string name="fineParticulateMatter_inform">좋음(6ug/m^3)</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

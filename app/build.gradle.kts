@@ -33,10 +33,10 @@ android {
 
 
 dependencies {
-    implementation("androidx.navigation:navigation-fragment-ktx:2.2.0-rc03")
-    implementation("androidx.navigation:navigation-ui-ktx:2.2.0-rc03")
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.mpandroidchart)
+    implementation(libs.viewpager2)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -45,6 +45,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation("androidx.core:core-splashscreen:1.0.1")
-
+    implementation(libs.core.splashscreen)
+    implementation(libs.lottie)
 }

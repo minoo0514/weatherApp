@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_temp"
+        android:icon="@drawable/temp_icon"
+        android:title="온도"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/action_rain"
+        android:icon="@drawable/raindrop_icon"
+        android:title="강수"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/action_humid"
+        android:icon="@drawable/humid_icon"
+        android:title="습도"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/action_matter"
+        android:icon="@drawable/dust_icon"
+        android:title="미세"
+        android:enabled="true"/>
+
+</menu>
