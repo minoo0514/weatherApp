@@ -47,4 +47,5 @@ dependencies {
 
     implementation(libs.core.splashscreen)
     implementation(libs.lottie)
+    implementation(libs.fragment)
 }
