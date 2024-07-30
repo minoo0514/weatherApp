@@ -16,7 +16,7 @@
             android:name=".DetailGraphActivity"
             android:exported="false" />
         <activity
-            android:name=".clothesActivity"
+            android:name=".recommendClothesActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

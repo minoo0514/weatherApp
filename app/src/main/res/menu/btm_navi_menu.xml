@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_temp"
-        android:icon="@drawable/temp_icon"
+        android:icon="@drawable/ic_navi_btm_temp"
         android:title="@string/temp"
         android:enabled="true"/>
     <item
         android:id="@+id/action_rain"
-        android:icon="@drawable/raindrop_icon"
+        android:icon="@drawable/ic_navi_btm_rain_drop"
         android:title="@string/rain"
         android:enabled="true"/>
     <item
         android:id="@+id/action_humid"
-        android:icon="@drawable/humid_icon"
+        android:icon="@drawable/ic_navi_btm_humid"
         android:title="@string/humid"
         android:enabled="true"/>
 

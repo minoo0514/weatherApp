@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
@@ -17,7 +18,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/water_level_size"
+        android:src="@drawable/img_item_raining_30dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp" />
 
@@ -25,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/humid_condition1"
+        android:text="@string/raining_percent1"
         android:layout_gravity="center"
         android:textSize="13sp" />
 
@@ -33,8 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/humid_amount1"
+        android:text="@string/raining_amount1"
         android:layout_gravity="center"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
 </LinearLayout>

@@ -10,7 +10,7 @@
     android:background="@color/light_blue">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
+        android:id="@+id/activity_main_"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView">
@@ -40,7 +40,7 @@
                     android:paddingEnd="5dp"
                     android:text="@string/Region_here"
                     android:textSize="35sp"
-                    app:drawableStartCompat="@drawable/menu_size"
+                    app:drawableStartCompat="@drawable/ic_main_menu_45dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +96,7 @@
                         android:id="@+id/button_clothes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_clothes"
+                        android:background="@drawable/round_button"
                         android:text="@string/clothesFashion"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"

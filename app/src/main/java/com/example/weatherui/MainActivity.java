@@ -2,7 +2,6 @@ package com.example.weatherui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         button_goto_clothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, clothesActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, recommendClothesActivity.class);
                 startActivity(myIntent);
                 finish();
             }

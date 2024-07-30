@@ -4,12 +4,10 @@
     <string name="particulateMatter">미세먼지</string>
     <string name="Region_here">신촌동</string>
     <string name="temp_realTime">27°</string>
-    <string name="weatherCondition">흐림</string>
     <string name="windChill_temp">체감온도 29°</string>
     <string name="particulateMatter_inform">좋음(29ug/m^3)</string>
     <string name="fineParticulateMatter">초미세먼지</string>
     <string name="fineParticulateMatter_inform">좋음(6ug/m^3)</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="raining_graph_time1">오후 1시</string>
     <string name="raining_percent1">80%</string>
     <string name="raining_amount1">2.4mm</string>
@@ -29,11 +27,12 @@
     <string name="dayAfterTomorrow">8/1</string>
     <string name="threeDayAfterTomorrow">8/2</string>
     <string name="weatherByTime">시간 별 날씨</string>
-    <string name="Loading">Loading...</string>
+    <string name="Loading">Loading…</string>
     <string name="Detailed_region">OO구 OO동</string>
     <string name="comment_clothes">매우 더운 날이에요!</string>
     <string name="recommend_clothes">반팔티</string>
     <string name="temp_bytime1">26°</string>
     <string name="rain_condition">비가 많이 오는 날이네요</string>
+    <string name="weatherCondition">흐림</string>
 
 </resources>
