@@ -2,18 +2,17 @@ package com.example.weatherui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -46,6 +45,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button button_goto_clothes = findViewById(R.id.button_clothes);
+        button_goto_clothes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, clothesActivity.class);
+                startActivity(myIntent);
+                finish();
+            }
+        });
+
+        ConstraintLayout layoutClickable = findViewById(R.id.constraintLayout);
+
+        layoutClickable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, DetailGraphActivity.class);
+                startActivity(myIntent);
+                finish();
+            }
+        });
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -67,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new RainFragment();
         } else if (itemId == R.id.action_humid) {
             selectedFragment = new HumidFragment();
-        } else if (itemId == R.id.action_matter) {
-            selectedFragment = new MatterFragment();
         }
 
         if (selectedFragment != null) {

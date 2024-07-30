@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_today"
+        android:title="@string/today"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/action_tomorrow"
+        android:title="@string/tomorrow"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/action_dayAfterTomorrow"
+        android:title="@string/dayAfterTomorrow"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/action_threedaysLater"
+        android:title="@string/threeDayAfterTomorrow"
+        android:enabled="true" />
+
+</menu>
