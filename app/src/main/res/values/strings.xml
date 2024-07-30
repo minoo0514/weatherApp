@@ -33,5 +33,7 @@
     <string name="Detailed_region">OO구 OO동</string>
     <string name="comment_clothes">매우 더운 날이에요!</string>
     <string name="recommend_clothes">반팔티</string>
+    <string name="temp_bytime1">26°</string>
+    <string name="rain_condition">비가 많이 오는 날이네요</string>
 
 </resources>
