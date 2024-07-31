@@ -18,13 +18,13 @@ public class DetailGraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detail_graph);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cl_splash_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        ImageView buttonBackweatherByTime = findViewById(R.id.management_back_weatherByTime);
+        ImageView buttonBackweatherByTime = findViewById(R.id.iv_detailGraph_backarrow);
         buttonBackweatherByTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

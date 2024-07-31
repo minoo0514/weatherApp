@@ -23,28 +23,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        findViewById(R.id.textView_menuRegion).setOnClickListener(new View.OnClickListener() {
+        final DrawerLayout drawerLayout = findViewById(R.id.dl_main_forNaviLeft);
+        findViewById(R.id.tv_main_menuIcRegionName).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
-        NavigationView navigationView = findViewById(R.id.navigationView);
+        NavigationView navigationView = findViewById(R.id.nv_main_leftMenu);
         navigationView.setItemIconTintList(null);
 
         Button button_goto = findViewById(R.id.goto_region_management);
         button_goto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, region_management.class);
+                Intent myIntent = new Intent(MainActivity.this, regionManagementActivity.class);
                 startActivity(myIntent);
                 finish();
             }
         });
 
-        Button button_goto_clothes = findViewById(R.id.button_clothes);
+        Button button_goto_clothes = findViewById(R.id.btn_main_gotoRecommendClothes);
         button_goto_clothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ConstraintLayout layoutClickable = findViewById(R.id.constraintLayout);
+        ConstraintLayout layoutClickable = findViewById(R.id.cl_main_);
 
         layoutClickable.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bnv_main_byNaviMenu);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (selectedFragment != null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
+                    .replace(R.id.fl_main_fragmentContainer, selectedFragment)
                     .commit();
             return true;
         }

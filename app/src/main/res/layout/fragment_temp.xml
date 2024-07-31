@@ -7,14 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".TempFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <!-- 꺽은선 그래프 상자 -->
-
-
-    <!-- 강수량 막대 그래프 상자 -->
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_graphByTime"
+        android:id="@+id/cv_tempFragment_hourlyTemp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/invisible_black"
@@ -22,16 +16,42 @@
         app:cardElevation="0dp"
         app:contentPadding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/graph_layout" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/txt_temp_weatherCondition"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#CCCCCC" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_graphByRaining"
+        android:id="@+id/cv_all_rainfallChart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -41,7 +61,7 @@
         app:contentPadding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardview_graphByTime">
+        app:layout_constraintTop_toBottomOf="@id/cv_tempFragment_hourlyTemp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +81,7 @@
 
     <!-- 좌우 바뀌는 정보 상자 -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_viewPager"
+        android:id="@+id/cv_all_viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -71,7 +91,7 @@
         app:contentPadding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView_graphByRaining">
+        app:layout_constraintTop_toBottomOf="@id/cv_all_rainfallChart">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,7 +99,7 @@
             android:orientation="horizontal">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
+                android:id="@+id/vp_all_weatherSummary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -91,13 +111,13 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_byDay"
+        android:id="@+id/rv_tempFragment_dailyTemp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView_viewPager">
+        app:layout_constraintTop_toBottomOf="@id/cv_all_viewPager">
 
     </androidx.recyclerview.widget.RecyclerView>
 

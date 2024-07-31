@@ -10,7 +10,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/textView_region"
+        android:id="@+id/tv_dayAfterTomorrow_regionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Detailed_region"
@@ -18,33 +18,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_weatherCondition"
+        android:id="@+id/tv_dayAfterTomorrow_textAboutWeather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/comment_clothes"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_region" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_dayAfterTomorrow_regionName" />
 
     <ImageView
-        android:id="@+id/imageView_clothes"
+        android:id="@+id/iv_dayAfterTomorrow_tshirt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:src="@drawable/img_recommend_clothes_fragment_tshirt_140dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_weatherCondition" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_dayAfterTomorrow_textAboutWeather" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_dayAfterTomorrow_tshirt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/recommend_clothes"
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_clothes" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_dayAfterTomorrow_tshirt" />
 
 
     <TextView
@@ -52,17 +52,17 @@
         android:layout_height="wrap_content"
         android:text="@string/temp"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/pieChart"
+        app:layout_constraintBottom_toTopOf="@+id/pc_dayAfterTomorrow_tempGraph"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
+        android:id="@+id/pc_dayAfterTomorrow_tempGraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/tv_dayAfterTomorrow_tshirt">
 
 
     </com.github.mikephil.charting.charts.PieChart>

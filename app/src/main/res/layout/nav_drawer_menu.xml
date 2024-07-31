@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="true"
-            app:searchIcon="@drawable/ic_navi_left_search_30dp"
+            app:searchIcon="@drawable/ic_navi_left_plus_30dp"
             app:closeIcon="@drawable/ic_navi_left_close_30dp"
             app:queryHint="지역 이름을 입력하시오" />
 
@@ -39,9 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
         </androidx.recyclerview.widget.RecyclerView>
-
 
         <Button
             android:id="@+id/goto_region_management"
@@ -51,7 +49,7 @@
             android:layout_marginRight="40dp"
             android:text="@string/region_management"
             android:textSize="20sp"
-            android:background="@drawable/round_button"
+            android:background="@drawable/btn_shape_round_color"
             android:layout_marginTop="20dp"/>
 
         <View

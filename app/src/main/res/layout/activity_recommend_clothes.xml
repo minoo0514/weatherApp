@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/cl_splash_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="15dp"
     tools:context=".recommendClothesActivity">
 
     <ImageView
-        android:id="@+id/management_back_clothes"
+        android:id="@+id/iv_recommendClothes_backarrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_clothesTitle"
+        android:id="@+id/tv_recommendClothes_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -29,22 +29,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView_clothes"
+        android:id="@+id/bnv_recommendClothes_byDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00000000"
         app:labelVisibilityMode="labeled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_clothesTitle"
-        app:menu="@menu/clothes_menu" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_recommendClothes_title"
+        app:menu="@menu/menu_recommend_clothes" />
 
     <FrameLayout
-        android:id="@+id/fragment_container_clothes"
+        android:id="@+id/fl_recommendClothes_fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottomNavigationView_clothes"
+        app:layout_constraintTop_toBottomOf="@id/bnv_recommendClothes_byDate"
         tools:layout_editor_absoluteX="15dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

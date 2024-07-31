@@ -23,7 +23,7 @@ public class recommendClothesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recommend_clothes);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cl_splash_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -31,7 +31,7 @@ public class recommendClothesActivity extends AppCompatActivity {
 
 
 
-        BottomNavigationView bottomNavigationViewClothes = findViewById(R.id.bottomNavigationView_clothes);
+        BottomNavigationView bottomNavigationViewClothes = findViewById(R.id.bnv_recommendClothes_byDate);
         bottomNavigationViewClothes.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -43,7 +43,7 @@ public class recommendClothesActivity extends AppCompatActivity {
             bottomNavigationViewClothes.setSelectedItemId(R.id.action_today); // Default fragment at launch
         }
 
-        ImageView buttonBackClothes = findViewById(R.id.management_back_clothes);
+        ImageView buttonBackClothes = findViewById(R.id.iv_recommendClothes_backarrow);
         buttonBackClothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +67,7 @@ public class recommendClothesActivity extends AppCompatActivity {
 
         if (selectedFragment != null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_clothes, selectedFragment)
+                    .replace(R.id.fl_recommendClothes_fragmentContainer, selectedFragment)
                     .commit();
             return true;
         }
