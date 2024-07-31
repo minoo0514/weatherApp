@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weather UI</string>
+    <string name="app_name">Weather App</string>
     <string name="maxTemp_minTemp">27° / 25°</string>
     <string name="particulateMatter">미세먼지</string>
     <string name="Region_here">신촌동</string>
