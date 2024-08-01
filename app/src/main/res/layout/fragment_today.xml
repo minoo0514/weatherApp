@@ -13,7 +13,7 @@
         android:id="@+id/tv_dayAfterTomorrow_regionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="구로구 가리봉동"
+        android:text="@string/Detailed_region"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,8 +21,8 @@
         android:id="@+id/tv_dayAfterTomorrow_textAboutWeather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="매우 더운 날이에요!"
-        android:textSize="25dp"
+        android:text="@string/comment_clothes"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_dayAfterTomorrow_regionName" />
 
@@ -46,11 +46,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_dayAfterTomorrow_tshirt" />
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="온도"
+        android:text="@string/temp"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/pieChart_dayAfterTomorrow_tempGraph"
         app:layout_constraintStart_toStartOf="parent" />
@@ -64,8 +63,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_dayAfterTomorrow_tshirt">
 
-
     </com.github.mikephil.charting.charts.PieChart>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
