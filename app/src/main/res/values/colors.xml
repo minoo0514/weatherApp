@@ -3,6 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="invisible_black">#1A000000</color>
-    <color name="light_blue">#79EDFF</color>
+    <color name="light_blue">#00CCFF</color>
     <color name="splash_screen">#0091EA</color>
+    <color name="bottomWindowColor">#00B3E6</color>
+    <color name="selectedTabColor">#FFFFFF</color>
+    <color name="unselectedTabColor">#80FFFFFF</color>
+    <color name="bottomBarColor">#00AEEF</color>
 </resources>
