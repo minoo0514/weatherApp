@@ -1,4 +1,4 @@
-package com.example.weatherui.resource;
+package com.example.weatherui.AddFragment;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.weatherui.resource;
+package com.example.weatherui.AddFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

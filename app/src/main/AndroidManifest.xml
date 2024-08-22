@@ -20,7 +20,7 @@
             android:name=".ScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".api.MainActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

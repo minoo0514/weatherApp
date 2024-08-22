@@ -1,4 +1,4 @@
-package com.example.weatherui.Fragment;
+package com.example.weatherui.MainFragment;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.weatherui.api.MainActivity;
+
 public class regionManagementActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {

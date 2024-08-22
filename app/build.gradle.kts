@@ -33,6 +33,8 @@ android {
 
 
 dependencies {
+    implementation(libs.play.services.location)
+    implementation(libs.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.navigation.fragment.ktx)

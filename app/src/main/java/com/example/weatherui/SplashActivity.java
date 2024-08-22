@@ -9,7 +9,7 @@ import android.view.Window;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.weatherui.MainActivity;
+import com.example.weatherui.api.MainActivity;
 
 
 public class SplashActivity extends AppCompatActivity {
