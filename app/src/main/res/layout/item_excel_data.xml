@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!-- 1단계 지역 정보 (예: 서울특별시) -->
+    <TextView
+        android:id="@+id/text_step1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="서울특별시"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <!-- 2단계 지역 정보 (예: 종로구) -->
+    <TextView
+        android:id="@+id/text_step2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp" />
+
+    <!-- 3단계 지역 정보 (예: 사직동) -->
+    <TextView
+        android:id="@+id/text_step3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp" />
+
+</LinearLayout>

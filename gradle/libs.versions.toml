@@ -15,7 +15,9 @@ constraintlayout = "2.1.4"
 mpandroidchart = "v3.1.0"
 navigationUiKtx = "2.7.7"
 playServicesLocation = "21.3.0"
+poiOoxml = "5.3.0"
 retrofit = "2.9.0"
+roomRuntime = "2.6.1"
 viewpager2 = "1.1.0"
 
 [libraries]
@@ -36,7 +38,11 @@ mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationUiKtx" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+poi = { module = "org.apache.poi:poi", version.ref = "poiOoxml" }
+poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxml" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
 [plugins]

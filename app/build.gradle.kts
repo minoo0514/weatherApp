@@ -33,6 +33,10 @@ android {
 
 
 dependencies {
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.poi)
+    implementation(libs.poi.ooxml)
     implementation(libs.play.services.location)
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit)
