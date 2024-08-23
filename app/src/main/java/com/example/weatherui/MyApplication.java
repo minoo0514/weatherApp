@@ -22,7 +22,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         // 엑셀 데이터를 데이터베이스에 저장하는 메서드 호출
-        saveExcelDataToDatabase();
+        //saveExcelDataToDatabase();
     }
 
     private void saveExcelDataToDatabase() {

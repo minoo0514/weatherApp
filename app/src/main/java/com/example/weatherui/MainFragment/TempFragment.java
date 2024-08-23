@@ -95,33 +95,27 @@ public class TempFragment extends Fragment {
     }
 
     private void fetchWeatherWithLocation() {
-        getLocation.fetchLocation(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
+        Log.d("WeatherFragment", "fetching data with hardcoded location");
 
-                    // 위도/경도를 nx, ny로 변환
-                    ConvertLocation.GridLocation gridLocation = ConvertLocation.convertToGrid(latitude, longitude);
+        // 하드코딩된 위도와 경도 (예: 서울)
+        double latitude = 37.5665;  // 서울의 위도
+        double longitude = 126.9780; // 서울의 경도
 
-                    String currentDate = getTime.getCurrentDate();
-                    String currentTime = getTime.getCurrentTime();
+        // 위도/경도를 nx, ny로 변환
+        ConvertLocation.GridLocation gridLocation = ConvertLocation.convertToGrid(latitude, longitude);
 
-                    // Fetch weather data using ViewModel
-                    weatherViewModel.fetchWeatherData(MyServiceKey, 100, 1, "JSON", currentDate, currentTime, gridLocation.nx, gridLocation.ny);
+        String currentDate = getTime.getCurrentDate();
+        String currentTime = getTime.getCurrentTime();
 
-                    // Observe and display weather data
-                    observeWeatherData();
-                } else {
-                    Log.e("WeatherFragment", "Location is null");
-                    tv_main_tempNow.setText("Location unavailable");
-                }
-            }
-        });
+        // 하드코딩된 격자 좌표로 API 요청
+        weatherViewModel.fetchWeatherData(MyServiceKey, 100, 1, "JSON", currentDate, currentTime, 60, 127);
+
+        // Observe and display weather data
+        observeWeatherData();
     }
 
     private void observeWeatherData() {
+        Log.d("WeatherFragment", "observeWeatherData: ");
         weatherViewModel.getWeatherData().observe(getViewLifecycleOwner(), new Observer<WeatherData>() {
             @Override
             public void onChanged(WeatherData weatherData) {
@@ -132,13 +126,15 @@ public class TempFragment extends Fragment {
                 }
 
                 String Temp = weatherData.getFcstValue("TMP", getTime.getCurrentDate(), getTime.getCurrentTime());
-                Log.d("WeatherFragment", "getFcstValue returned: " + Temp);
+
                 if (Temp != null) {
                     tv_main_tempNow.setText(Temp + "°");
                 } else {
                     Log.e("WeatherFragment", "getFcstValue returned null");
                     tv_main_tempNow.setText("no data");
                 }
+
+
             }
         });
     }
