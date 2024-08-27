@@ -18,6 +18,8 @@ playServicesLocation = "21.3.0"
 poiOoxml = "5.3.0"
 retrofit = "2.9.0"
 roomRuntime = "2.6.1"
+tedpermission = "3.4.2"
+tedpermissionVersion = "3.4.1"
 viewpager2 = "1.1.0"
 
 [libraries]
@@ -43,6 +45,8 @@ poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxml" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+tedpermission = { module = "io.github.ParkSangGwon:tedpermission", version.ref = "tedpermission" }
+tedpermission-v341 = { module = "io.github.ParkSangGwon:tedpermission", version.ref = "tedpermissionVersion" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
 [plugins]

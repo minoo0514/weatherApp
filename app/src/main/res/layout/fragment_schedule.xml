@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl_fragment_mainLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/light_blue"
     tools:context=".MainFragment.TempFragment">
 
@@ -87,6 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_main_tempNow" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_schedule_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -100,7 +101,8 @@
         android:text="일정 추가"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_schedule_recyclerview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

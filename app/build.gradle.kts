@@ -33,6 +33,7 @@ android {
 
 
 dependencies {
+    implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     implementation(libs.poi)

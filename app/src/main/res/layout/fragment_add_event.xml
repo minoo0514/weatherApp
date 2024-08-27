@@ -32,8 +32,8 @@
         android:textColor="@android:color/white" />
 
         <!-- 일정 날짜 및 시간 설정 -->
-        <TextView
-            android:id="@+id/textViewDate"
+        <EditText
+            android:id="@+id/date_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="8월 15일 (목) 오후 7:00"
@@ -45,6 +45,7 @@
         <!-- 지역 추가 -->
 
         <androidx.appcompat.widget.SearchView
+            android:id="@+id/sv_addEvent_addRegion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -74,7 +75,7 @@
                     android:textColor="@android:color/white" />
 
                 <Switch
-                    android:id="@+id/switchAlarm"
+                    android:id="@+id/alert_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -82,6 +83,7 @@
 
             <!-- 온도 변화 알림 -->
             <LinearLayout
+                android:id="@+id/alert_details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -96,7 +98,7 @@
                     android:textColor="@android:color/white" />
 
                 <Switch
-                    android:id="@+id/switchTemperature"
+                    android:id="@+id/temperature_alert_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -117,7 +119,7 @@
                     android:textColor="@android:color/white" />
 
                 <Switch
-                    android:id="@+id/switchRainProbability"
+                    android:id="@+id/rain_probability_alert_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -138,7 +140,7 @@
                     android:textColor="@android:color/white" />
 
                 <Switch
-                    android:id="@+id/switchRainAmount"
+                    android:id="@+id/rain_amount_alert_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

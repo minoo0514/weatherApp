@@ -103,6 +103,24 @@ public class WeatherData {
                 }
             }
         }
+        Log.d("getForecastForDateTime", "Returning " + result.size() + " items for " + fcstDate + " " + fcstTime);
         return result;
+    }
+
+
+    public String getFcstValueNoTime(String category, String fcstDate) {
+        if (response != null && response.body != null && response.body.items != null) {
+            for (Item item : response.body.items.itemList) {
+                Log.d("WeatherData", "Checking item: " + item.category + ", " + item.fcstDate);
+                if (item.category.equals(category) && item.fcstDate.equals(fcstDate)) {
+                    Log.d("WeatherData", "Found matching item: " + item.fcstValue);
+                    return item.fcstValue;
+                }
+            }
+            Log.d("WeatherData", "No matching item found for: " + category + ", " + fcstDate);
+        } else {
+            Log.e("WeatherData", "Response or body or items is null");
+        }
+        return null; // 해당하는 데이터가 없을 경우
     }
 }
