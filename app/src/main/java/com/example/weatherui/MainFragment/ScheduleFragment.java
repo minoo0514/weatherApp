@@ -41,8 +41,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -52,9 +55,6 @@ public class ScheduleFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private List<Event> eventList = new ArrayList<>();
-
-    //상단 날씨 변수
-    public String TodayTime = "1100";
 
     private GetCurrentLocation getLocation;
     private GetCurrentTime getTime;
@@ -189,7 +189,8 @@ public class ScheduleFragment extends Fragment {
         weatherViewModel.fetchWeatherData(MyServiceKey, 500, 1, "JSON", currentDate, "0200", nx, ny);
         observeTempMaxMinData();
 
-        weatherViewModel.fetchWindChillData(MyServiceKey, 100, 1, "JSON", "1100000000", "2024082612", "A41");
+        String currentDateTime = getCurrentDateTime();
+        weatherViewModel.fetchWindChillData(MyServiceKey, 100, 1, "JSON", "1100000000", currentDateTime, "A41");
         observeWindChillData();
     }
 
@@ -198,6 +199,8 @@ public class ScheduleFragment extends Fragment {
         weatherViewModel.getWeatherData().observe(getViewLifecycleOwner(), new Observer<WeatherData>() {
             @Override
             public void onChanged(WeatherData weatherData) {
+                String currentTime = getTime.getCurrentTime();
+                String TemporalTime = getNextHour(currentTime);
                 if (weatherData == null) {
                     Log.e("WeatherFragment", "WeatherData is null");
                     tv_main_tempNow.setText("no data");
@@ -217,7 +220,7 @@ public class ScheduleFragment extends Fragment {
                     tv_main_weatherCondition.setText("no data");
                 }
 
-                String Temp = weatherData.getFcstValue("TMP", getTime.getCurrentDate(), "1500");
+                String Temp = weatherData.getFcstValue("TMP", getTime.getCurrentDate(), TemporalTime);
                 if (Temp != null) {
                     tv_main_tempNow.setText(Temp + "°");
                 } else {
@@ -313,6 +316,12 @@ public class ScheduleFragment extends Fragment {
 
         // 다시 문자열 형식으로 변환하고 앞자리가 0으로 시작할 경우, 형식 유지
         return String.format("%04d", timeInt);
+    }
+
+    private String getCurrentDateTime() {
+        // 현재 시각을 가져와서 yyyyMMddHH 형식으로 포맷
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHH", Locale.getDefault());
+        return dateFormat.format(new Date());
     }
 
     @Override

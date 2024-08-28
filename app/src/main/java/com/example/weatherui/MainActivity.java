@@ -44,7 +44,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     // api 변수
     private final String MyServiceKey = "E9YTwJF5HtPr5xipNzQvR1AaxrTXHsiPR9TBJAYYlINbSj0XzJZAZkEhfSZXaTQB8v8JWgXbazVcEFK72vAXMw==";
-    private String TodayTime = "0800";
 
     private KakaoViewModel kakaoViewModel;
     private TextView tv_main_RegionName;
@@ -57,13 +56,33 @@ public class MainActivity extends AppCompatActivity {
     //ViewPager 변수
     private ViewPager2 viewPager;
     private TextView tabTemp, tabRain, tabSchedule;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // UI 초기화
+        initUI();
 
+        // ViewModel 및 RecyclerView 초기화
+        initViewModelAndRecyclerView();
+
+        // 저장된 지역 정보 기반으로 날씨 데이터 요청
+        loadSavedRegionsAndUpdateWeather();
+
+        // 현재 위치에 따른 지역명 데이터 요청
+        fetchLocationAndRegionName();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 화면이 다시 보일 때마다 저장된 지역 리스트를 바탕으로 API 요청
+        loadSavedRegionsAndUpdateWeather();
+    }
+
+    private void initUI() {
         Window topWindow = getWindow();
         int appBackgroundColor = ContextCompat.getColor(this, R.color.light_blue);
         topWindow.setStatusBarColor(appBackgroundColor);
@@ -83,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nv_main_leftMenu);
         navigationView.setItemIconTintList(null);
 
-        
-        
         Button button_goto = findViewById(R.id.goto_region_management);
         button_goto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         ImageView addButton = findViewById(R.id.iv_main_addRegion);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -113,29 +128,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        ImageView addMenuButton = findViewById(R.id.im_navDrawer_addRegion);
-        addMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddRegionBottomSheet bottomSheet = new AddRegionBottomSheet(new AddRegionBottomSheet.OnRegionSelectedListener() {
-                    @Override
-                    public void onRegionSelected(RegionData regionData) {
-                        Log.d("onRegionSelected", "onRegionSelected: ");
-                        saveSelectedRegion(regionData); // 선택된 지역을 저장
-                        requestWeatherDataForRegion(regionData);
-                    }
-                });
-                bottomSheet.show(getSupportFragmentManager(), "AddRegionBottomSheet");
-            }
-        });
-
-        
         viewPager = findViewById(R.id.viewPager);
         tabTemp = findViewById(R.id.tv_main_tabTemp);
         tabRain = findViewById(R.id.tv_main_tabRain);
         tabSchedule = findViewById(R.id.tv_main_tabSch);
-        
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
@@ -155,14 +152,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        tv_main_RegionName = findViewById(R.id.tv_main_RegionName);
+    }
 
+    private void initViewModelAndRecyclerView() {
         weatherRecyclerView = findViewById(R.id.rv_menu_recyclerview);
         weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         weatherAdapter = new WeatherAdapter(new ArrayList<>());
         weatherRecyclerView.setAdapter(weatherAdapter);
 
-        // ViewModel 설정
-        WeatherApiInterface apiService = RetrofitInstance.getWeatherRetrofitInstance().create(WeatherApiInterface.class);
         weatherViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
             @NonNull
             @Override
@@ -188,57 +186,36 @@ public class MainActivity extends AppCompatActivity {
             }
         }).get(KakaoViewModel.class);
 
-        tv_main_RegionName = findViewById(R.id.tv_main_RegionName);
         kakaoViewModel.getRegion3DepthName().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String regionName) {
+                Log.d("KakaoViewModel", "Region name updated: " + regionName);
                 tv_main_RegionName.setText(regionName);
             }
         });
+    }
 
-        fetchLocationAndRegionName();
-
-        ImageView im_navDrawer_addRegion = findViewById(R.id.im_navDrawer_addRegion);
-        im_navDrawer_addRegion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddRegionBottomSheet bottomSheet = new AddRegionBottomSheet(new AddRegionBottomSheet.OnRegionSelectedListener() {
-                    @Override
-                    public void onRegionSelected(RegionData regionData) {
-                        Log.d("onRegionSelected", "onRegionSelected: ");
-                        saveSelectedRegion(regionData);
-                        requestWeatherDataForRegion(regionData);
-                    }
-                });
-                bottomSheet.show(getSupportFragmentManager(), "AddRegionBottomSheet");
-            }
-        });
-
+    private void loadSavedRegionsAndUpdateWeather() {
         SharedPreferences sharedPreferences = getSharedPreferences("regions", MODE_PRIVATE);
-        String regionName = sharedPreferences.getString("region_name", null);
-        String nx = sharedPreferences.getString("nx", null);
-        String ny = sharedPreferences.getString("ny", null);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("region_list", null);
+        Type type = new TypeToken<ArrayList<RegionData>>() {}.getType();
+        List<RegionData> savedRegionList = gson.fromJson(json, type);
 
-        if (regionName != null && nx != null && ny != null) {
-            // 저장된 지역 정보로 WeatherData 요청
-            RegionData savedRegion = new RegionData(regionName, "", nx, ny);
-            requestWeatherDataForRegion(savedRegion);
+        if (savedRegionList == null) {
+            savedRegionList = new ArrayList<>();
+        }
+
+        weatherAdapter.clearWeatherItems();  // 기존 데이터 클리어
+        weatherAdapter.notifyDataSetChanged();  // 어댑터에 변경 사항 알림
+
+        // 모든 지역에 대해 API 요청
+        for (RegionData region : savedRegionList) {
+            requestWeatherDataForRegion(region);
         }
     }
 
-    private void updateTabs(int position) {
-        tabTemp.setBackground(null);
-        tabRain.setBackground(null);
-        tabSchedule.setBackground(null);
 
-        if (position == 0) {
-            tabTemp.setBackgroundResource(R.drawable.selected_tab_background);
-        } else if (position == 1) {
-            tabRain.setBackgroundResource(R.drawable.selected_tab_background);
-        } else if (position == 2) {
-            tabSchedule.setBackgroundResource(R.drawable.selected_tab_background);
-        }
-    }
 
     private void saveSelectedRegion(RegionData regionData) {
         // SharedPreferences 초기화
@@ -265,11 +242,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d("saveSelectedRegion", "Saved regions: " + updatedJson);
     }
 
-    private void requestWeatherDataForRegion(RegionData regionData) {
+    public void requestWeatherDataForRegion(RegionData regionData) {
         if (regionData == null || regionData.getName() == null || regionData.getNx() == null || regionData.getNy() == null) {
             Log.e("requestWeatherDataForRegion", "Invalid RegionData");
             return;
         }
+
+        // 요청할 지역 정보 로그
+        Log.d("requestWeatherDataForRegion", "Requesting weather data for region: "
+                + regionData.getName()
+                + " (Nx: " + regionData.getNx()
+                + ", Ny: " + regionData.getNy() + ")");
 
         GetCurrentTime getTime = new GetCurrentTime();
         String currentDate = getTime.getCurrentDate();
@@ -278,8 +261,23 @@ public class MainActivity extends AppCompatActivity {
         String Nx = regionData.getNx();
         String Ny = regionData.getNy();
 
+        // WeatherViewModel에 데이터 요청
         weatherViewModel.fetchRegionWeatherData(RegionName, MyServiceKey, 100, 1, "JSON", currentDate, currentTime, Nx, Ny);
+
+        // Observer에서 데이터를 받아서 추가 처리
+        weatherViewModel.getRegionWeatherItems().observe(this, new Observer<List<RegionWeatherData>>() {
+            @Override
+            public void onChanged(List<RegionWeatherData> items) {
+
+                Log.d("requestWeatherDataForRegion", "API response for region: " + regionData.getName()
+                        + ", Items received: " + (items != null ? items.size() : "null"));
+
+                weatherAdapter.updateWeatherItems(items);
+
+            }
+        });
     }
+
 
     private void fetchLocationAndRegionName() {
         GetCurrentLocation getLocation = new GetCurrentLocation(this);
@@ -297,5 +295,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void updateTabs(int position) {
+        tabTemp.setBackground(null);
+        tabRain.setBackground(null);
+        tabSchedule.setBackground(null);
+
+        if (position == 0) {
+            tabTemp.setBackgroundResource(R.drawable.selected_tab_background);
+        } else if (position == 1) {
+            tabRain.setBackgroundResource(R.drawable.selected_tab_background);
+        } else if (position == 2) {
+            tabSchedule.setBackgroundResource(R.drawable.selected_tab_background);
+        }
     }
 }

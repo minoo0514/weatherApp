@@ -41,12 +41,17 @@ public class ScheduleActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_schedule);
 
+        setupUI();
+        setupRecyclerView();
+        loadEvents();
+    }
+
+    private void setupUI() {
         ImageView buttonBack = findViewById(R.id.iv_schedule_backarrow);
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(backIntent);
+                navigateToMainActivity();
             }
         });
 
@@ -66,22 +71,30 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), new androidx.core.view.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                return insets;
+            }
         });
+    }
 
+    private void setupRecyclerView() {
         recyclerView = findViewById(R.id.rv_scheduleActivity_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventAdapter = new EventAdapter(eventList);
         recyclerView.setAdapter(eventAdapter);
+    }
 
-        loadEvents();
+    private void navigateToMainActivity() {
+        Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(backIntent);
     }
 
     private void loadEvents() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("events", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("events", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
         Gson gson = new Gson();
         Type eventType = new TypeToken<Event>() {}.getType();
@@ -97,7 +110,6 @@ public class ScheduleActivity extends AppCompatActivity {
         Log.d("LoadEvent", "Total events loaded: " + eventList.size());
         eventAdapter.notifyDataSetChanged();
     }
-
 
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
@@ -121,7 +133,7 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     private void deleteSelectedEvents() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("events", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("events", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         List<Event> selectedEvents = new ArrayList<>();
@@ -129,7 +141,6 @@ public class ScheduleActivity extends AppCompatActivity {
             if (event.isSelected()) {
                 selectedEvents.add(event);
 
-                // 정확한 키를 찾아서 삭제
                 for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
                     String json = (String) entry.getValue();
                     Event storedEvent = new Gson().fromJson(json, Event.class);
@@ -143,17 +154,16 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         }
 
-        editor.apply(); // 데이터 즉시 반영
+        editor.apply();
 
         eventList.removeAll(selectedEvents);
         eventAdapter.notifyDataSetChanged();
 
         Log.d("DeleteEvent", "Selected events removed. Total remaining events: " + eventList.size());
 
-        toggleDeleteMode(false); // 삭제 모드 해제
+        toggleDeleteMode(false);
     }
 
-    // 삭제 모드를 관리하는 메서드
     private void toggleDeleteMode(boolean enable) {
         isDeleteMode = enable;
         eventAdapter.setDeleteMode(enable);
