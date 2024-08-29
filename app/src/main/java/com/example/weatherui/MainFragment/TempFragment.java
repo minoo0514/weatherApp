@@ -25,12 +25,11 @@ import com.example.weatherui.Location.GetCurrentLocation;
 import com.example.weatherui.Location.GetCurrentTime;
 import com.example.weatherui.R;
 import com.example.weatherui.ScheduleActivity;
-import com.example.weatherui.api.RetrofitInstance;
+import com.example.weatherui.api.WeatherRetrofitInstance;
 import com.example.weatherui.api.WeatherApiInterface;
 import com.example.weatherui.api.WeatherData;
 import com.example.weatherui.api.WeatherViewModel;
 import com.example.weatherui.api.WindChillData;
-import com.example.weatherui.kakaoapi.KakaoViewModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
@@ -106,7 +105,7 @@ public class TempFragment extends Fragment {
         getLocation = new GetCurrentLocation(getActivity());
         getTime = new GetCurrentTime();
 
-        WeatherApiInterface apiService = RetrofitInstance.getWeatherRetrofitInstance().create(WeatherApiInterface.class);
+        WeatherApiInterface apiService = WeatherRetrofitInstance.getWeatherRetrofitInstance().create(WeatherApiInterface.class);
 
         weatherViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.Factory() {
             @NonNull
@@ -165,6 +164,7 @@ public class TempFragment extends Fragment {
         String currentDate = getTime.getCurrentDate();
         String currentTime = getTime.getCurrentTime();
         Log.d("fetchWeatherWithLocation", "currentTime: " +currentTime);
+        Log.d("fetchWeatherWithLocation", "currentDate: " +currentDate);
 
         // 현재 위치 기반으로 API 요청
         weatherViewModel.fetchWeatherData(MyServiceKey, 100, 1, "JSON", currentDate, currentTime, nx, ny);

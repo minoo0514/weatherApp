@@ -8,8 +8,10 @@ public class Event {
     private boolean isRainProbabilityAlert;
     private boolean isRainAmountAlert;
     private boolean isSelected;
+    private RegionData region; // 지역 정보 추가
 
-    public Event(String title, String date, boolean isAlertEnabled, boolean isTemperatureAlert, boolean isRainProbabilityAlert, boolean isRainAmountAlert) {
+
+    public Event(String title, String date, boolean isAlertEnabled, boolean isTemperatureAlert, boolean isRainProbabilityAlert, boolean isRainAmountAlert, RegionData region) {
         this.title = title;
         this.date = date;
         this.isAlertEnabled = isAlertEnabled;
@@ -17,6 +19,7 @@ public class Event {
         this.isRainProbabilityAlert = isRainProbabilityAlert;
         this.isRainAmountAlert = isRainAmountAlert;
         this.isSelected = false;
+        this.region = region;
     }
 
     public String getTitle() { return title; }
@@ -33,7 +36,13 @@ public class Event {
     public void setTemperatureAlert(boolean temperatureAlert) { isTemperatureAlert = temperatureAlert; }
     public void setRainProbabilityAlert(boolean rainProbabilityAlert) { isRainProbabilityAlert = rainProbabilityAlert; }
     public void setRainAmountAlert(boolean rainAmountAlert) { isRainAmountAlert = rainAmountAlert; }
-    public void setSelected(boolean selected) { isSelected = selected; }  // 선택 여부 설정
+    public void setSelected(boolean selected) { isSelected = selected; }
+
+    public RegionData getRegion() {
+        return region;
+    }
 }
+
+
 
 

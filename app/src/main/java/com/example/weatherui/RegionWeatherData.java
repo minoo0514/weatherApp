@@ -1,5 +1,7 @@
 package com.example.weatherui;
 
+import android.util.Log;
+
 import com.example.weatherui.api.WeatherData;
 
 import java.util.Objects;
@@ -12,6 +14,7 @@ public class RegionWeatherData {
     public RegionWeatherData(String regionName, WeatherData.Item weatherItem) {
         this.regionName = regionName;
         this.weatherItem = weatherItem;
+        Log.d("RegionWeatherData", "RegionWeatherData: "+weatherItem);
     }
 
     public String getRegionName() {

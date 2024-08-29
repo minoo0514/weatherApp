@@ -19,14 +19,22 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.example.weatherui.Event;
 import com.example.weatherui.R;
+import com.example.weatherui.RegionAdapter;
+import com.example.weatherui.RegionData;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AddEventBottomSheet extends BottomSheetDialogFragment {
@@ -39,6 +47,15 @@ public class AddEventBottomSheet extends BottomSheetDialogFragment {
     private Switch rainProbabilitySwitch;
     private Switch rainAmountSwitch;
     private Button saveButton;
+
+    // 지역 추가 변수
+    private SearchView searchView;
+    private RecyclerView recyclerView;
+    private RegionAdapter regionAdapter;
+    private List<RegionData> regionList;
+    private List<RegionData> filteredList;
+    private RegionData selectedRegion; // 선택된 지역 저장
+
 
     @Nullable
     @Override
@@ -54,6 +71,38 @@ public class AddEventBottomSheet extends BottomSheetDialogFragment {
         rainProbabilitySwitch = view.findViewById(R.id.rain_probability_alert_switch);
         rainAmountSwitch = view.findViewById(R.id.rain_amount_alert_switch);
         saveButton = view.findViewById(R.id.save_button);
+
+        searchView = view.findViewById(R.id.sv_addEvent_addRegion);
+        recyclerView = view.findViewById(R.id.rv_addEvent_regionList);
+
+        regionList = getRegionList(); // 모든 지역 리스트 가져오기
+        filteredList = new ArrayList<>(); // 필터링된 리스트 초기화
+        regionAdapter = new RegionAdapter(filteredList, new RegionAdapter.OnRegionClickListener() {
+            @Override
+            public void onRegionClick(RegionData region) {
+                selectedRegion = region;  // 선택된 지역 저장
+                recyclerView.setVisibility(View.GONE);  // RecyclerView를 숨김
+                searchView.setQuery(region.getName(), false);  // 선택된 지역을 SearchView에 표시
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(regionAdapter);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterRegionList(newText);  // 사용자가 텍스트를 입력할 때마다 리스트를 필터링
+                return true;
+            }
+        });
+
 
         dateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +142,7 @@ public class AddEventBottomSheet extends BottomSheetDialogFragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                 Gson gson = new Gson();
-                Event event = new Event(title, date, isAlertEnabled, isTemperatureAlert, isRainProbabilityAlert, isRainAmountAlert);
+                Event event = new Event(title, date, isAlertEnabled, isTemperatureAlert, isRainProbabilityAlert, isRainAmountAlert,  selectedRegion);
                 String json = gson.toJson(event);
                 editor.putString("event_" + System.currentTimeMillis(), json);
                 editor.apply();
@@ -149,6 +198,36 @@ public class AddEventBottomSheet extends BottomSheetDialogFragment {
 
         SimpleDateFormat displayFormat = new SimpleDateFormat("yyyy년 M월 d일 a h시", Locale.getDefault());
         return displayFormat.format(calendar.getTime());
+    }
+
+    private void filterRegionList(String query) {
+        filteredList.clear();
+        if (!query.isEmpty()) {
+            for (RegionData region : regionList) {
+                Log.d("FilterCheck", "Checking region: " + region.getName()); // 지역 이름 확인
+                Log.d("FilterCheck", "Query: " + query);// 지역 이름 확인
+                if (region.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(region);
+                    Log.d("RegionAdapter", "Binding region: " + region.getName());
+                }
+            }
+        }
+        Log.d("RegionAdapter", "FilteredList size: " + filteredList.size());
+
+
+        regionAdapter.updateList(filteredList);
+    }
+
+    private List<RegionData> getRegionList() {
+        List<RegionData> regionList = new ArrayList<>();
+        regionList.add(new RegionData("서울특별시", "1100000000", "60", "127"));
+        regionList.add(new RegionData("부산광역시", "2600000000", "98", "76"));
+        regionList.add(new RegionData("대구광역시", "2700000000", "89", "90"));
+        regionList.add(new RegionData("인천광역시", "2800000000", "55", "124"));
+        regionList.add(new RegionData("광주광역시", "2900000000", "58", "74"));
+        regionList.add(new RegionData("울산광역시", "3100000000", "102", "84"));
+        regionList.add(new RegionData("대전광역시", "3000000000", "67", "100"));
+        return regionList;
     }
 }
 

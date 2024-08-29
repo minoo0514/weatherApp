@@ -28,4 +28,5 @@ public class RegionData {
     public String getNy() {
         return ny;
     }
+
 }

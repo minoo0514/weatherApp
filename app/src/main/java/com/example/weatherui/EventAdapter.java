@@ -1,5 +1,6 @@
 package com.example.weatherui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
-        holder.dateTextView.setText(event.getDate()); // yyyyMMdd HHmm 형식으로 저장된 날짜
+        Log.d("EventDateCheck", "EventDateCheck: " + event.getDate());
+        String formattedDate = DateUtils.formatDate(event.getDate());
+        Log.d("DateCheck", "DateCheck: " + formattedDate);
+        holder.dateTextView.setText(formattedDate);
         holder.titleTextView.setText(event.getTitle());
 
         holder.checkBox.setVisibility(isDeleteMode ? View.VISIBLE : View.GONE);

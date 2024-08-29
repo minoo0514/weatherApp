@@ -1,7 +1,5 @@
 package com.example.weatherui.api;
 
-import com.example.weatherui.kakaoapi.KakaoApiInterface;
-
 import retrofit2.Call;
 
 public class WeatherRepository {

@@ -31,7 +31,11 @@ import com.example.weatherui.Location.GetCurrentTime;
 import com.example.weatherui.R;
 import com.example.weatherui.AddFragment.AddEventBottomSheet;
 import com.example.weatherui.ScheduleActivity;
-import com.example.weatherui.api.RetrofitInstance;
+import com.example.weatherui.WeatherApi.WeatherBitApiInterface;
+import com.example.weatherui.WeatherApi.WeatherBitData;
+import com.example.weatherui.WeatherApi.WeatherBitRepository;
+import com.example.weatherui.WeatherApi.WeatherBitViewModel;
+import com.example.weatherui.api.WeatherRetrofitInstance;
 import com.example.weatherui.api.WeatherApiInterface;
 import com.example.weatherui.api.WeatherData;
 import com.example.weatherui.api.WeatherViewModel;
@@ -51,6 +55,10 @@ import java.util.Objects;
 
 public class ScheduleFragment extends Fragment {
 
+    //WeatherBit 변수
+    private WeatherBitViewModel weatherBitViewModel;
+    private final String WEATHERBIT_API_KEY = "7ccd4cb73f7948088d46b23d9b41ce3b";
+
     //일정 변수
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
@@ -65,7 +73,6 @@ public class ScheduleFragment extends Fragment {
     private TextView tv_main_tempMin;
     private TextView tv_main_windChillTemp;
     private WeatherViewModel weatherViewModel;
-    private final String MyServiceKey = "E9YTwJF5HtPr5xipNzQvR1AaxrTXHsiPR9TBJAYYlINbSj0XzJZAZkEhfSZXaTQB8v8JWgXbazVcEFK72vAXMw==";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,9 +108,7 @@ public class ScheduleFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         Button addSchButton = view.findViewById(R.id.btn_ScheduleFragment_addSch);
@@ -116,6 +121,7 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
+
         tv_main_tempNow = view.findViewById(R.id.tv_main_tempNow);
         tv_main_weatherCondition = view.findViewById(R.id.tv_main_weatherCondition);
         tv_main_tempMax = view.findViewById(R.id.tv_main_tempMax);
@@ -125,17 +131,27 @@ public class ScheduleFragment extends Fragment {
         getLocation = new GetCurrentLocation(getActivity());
         getTime = new GetCurrentTime();
 
-        WeatherApiInterface apiService = RetrofitInstance.getWeatherRetrofitInstance().create(WeatherApiInterface.class);
+        WeatherApiInterface weatherApiInterface = WeatherRetrofitInstance.getWeatherRetrofitInstance().create(WeatherApiInterface.class);
 
         weatherViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.Factory() {
             @NonNull
             @Override
             public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new WeatherViewModel(apiService);
+                return (T) new WeatherViewModel(weatherApiInterface);
             }
         }).get(WeatherViewModel.class);
 
         fetchCurrentLocationAndWeather();
+
+        // WeatherBitViewModel 초기화
+        WeatherBitApiInterface weatherBitApiInterface = WeatherBitApiInterface.getWeatherBitRetrofitInstance().create(WeatherBitApiInterface.class);
+        WeatherBitViewModel weatherBitViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new WeatherBitViewModel(new WeatherBitRepository(weatherBitApiInterface));
+            }
+        }).get(WeatherBitViewModel.class);
 
         recyclerView = view.findViewById(R.id.rv_schedule_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -181,16 +197,16 @@ public class ScheduleFragment extends Fragment {
     private void fetchWeatherWithLocation(String nx, String ny) {
         String currentDate = getTime.getCurrentDate();
         String currentTime = getTime.getCurrentTime();
-        String TemporalTime = getNextHour(currentTime);
         // 현재 위치 기반으로 API 요청
-        weatherViewModel.fetchWeatherData(MyServiceKey, 100, 1, "JSON", currentDate, TemporalTime, nx, ny);
+        String WEATHER_API_KEY = "E9YTwJF5HtPr5xipNzQvR1AaxrTXHsiPR9TBJAYYlINbSj0XzJZAZkEhfSZXaTQB8v8JWgXbazVcEFK72vAXMw==";
+        weatherViewModel.fetchWeatherData(WEATHER_API_KEY, 100, 1, "JSON", currentDate, currentTime, nx, ny);
         observeWeatherData();
 
-        weatherViewModel.fetchWeatherData(MyServiceKey, 500, 1, "JSON", currentDate, "0200", nx, ny);
+        weatherViewModel.fetchWeatherData(WEATHER_API_KEY, 500, 1, "JSON", currentDate, "0200", nx, ny);
         observeTempMaxMinData();
 
         String currentDateTime = getCurrentDateTime();
-        weatherViewModel.fetchWindChillData(MyServiceKey, 100, 1, "JSON", "1100000000", currentDateTime, "A41");
+        weatherViewModel.fetchWindChillData(WEATHER_API_KEY, 100, 1, "JSON", "1100000000", currentDateTime, "A41");
         observeWindChillData();
     }
 
@@ -208,7 +224,7 @@ public class ScheduleFragment extends Fragment {
                     return;
                 }
 
-                String Sky = weatherData.getFcstValue("SKY", getTime.getCurrentDate(), "1500");
+                String Sky = weatherData.getFcstValue("SKY", getTime.getCurrentDate(), TemporalTime);
                 if (Objects.equals(Sky, "1")) {
                     tv_main_weatherCondition.setText("맑음");
                 } else if (Objects.equals(Sky, "3")) {
@@ -304,8 +320,29 @@ public class ScheduleFragment extends Fragment {
         eventAdapter.notifyDataSetChanged(); // 데이터 변경 알림
     }
 
+    // 새롭게 추가된 WeatherBit API 요청 함수
+    private void fetchWeatherForEvent(Event event) {
+        if (event.getRegion() != null) {
+            String lat = event.getRegion().getNx(); // 격자 x를 위도로 변환
+            String lon = event.getRegion().getNy(); // 격자 y를 경도로 변환
+
+            weatherBitViewModel.fetchWeatherByLatLon(lat, lon, WEATHERBIT_API_KEY, 1);
+            weatherBitViewModel.getWeatherData().observe(getViewLifecycleOwner(), new Observer<WeatherBitData>() {
+                @Override
+                public void onChanged(WeatherBitData weatherData) {
+                    if (weatherData != null && weatherData.getData() != null && !weatherData.getData().isEmpty()) {
+                        WeatherBitData.DailyForecast forecast = weatherData.getData().get(0);
+                        event.setWeatherDescription(forecast.getWeather().getDescription());
+                        event.setTemperature(forecast.getTemperature());
+                        eventAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
+    }
+
     private String getNextHour(String currentTime) {
-        // currentTime을 정수로 변환하여 100을 더합니다.
+        // currentTime을 정수로 변환하여 100을 더함
         int timeInt = Integer.parseInt(currentTime);
         timeInt += 100;
 

@@ -1,10 +1,10 @@
 package com.example.weatherui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,7 +26,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     public WeatherAdapter(List<RegionWeatherData> regionWeatherDataList) {
         this.regionWeatherDataList = regionWeatherDataList;
     }
-    
+
     @NonNull
     @Override
     public WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,18 +45,16 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         return regionWeatherDataList.size();
     }
 
-    public void updateWeatherItems(List<RegionWeatherData> newRegionWeatherData) {
-        if (this.regionWeatherDataList == null) {
-            this.regionWeatherDataList = new ArrayList<>();
-        }
+    public List<RegionWeatherData> getRegionWeatherDataList() {
+        return regionWeatherDataList;
+    }
 
-        // Set을 사용해 중복 제거
-        Set<RegionWeatherData> uniqueDataSet = new HashSet<>(this.regionWeatherDataList);
+    public void updateWeatherItems(List<RegionWeatherData> newRegionWeatherData) {
+        Set<RegionWeatherData> uniqueDataSet = new HashSet<>(regionWeatherDataList);
         uniqueDataSet.addAll(newRegionWeatherData);
 
-        // Set을 List로 변환
-        this.regionWeatherDataList.clear();
-        this.regionWeatherDataList.addAll(uniqueDataSet);
+        regionWeatherDataList.clear();
+        regionWeatherDataList.addAll(uniqueDataSet);
 
         notifyDataSetChanged();
     }
@@ -79,17 +77,15 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         notifyDataSetChanged();
     }
 
-
     static class WeatherViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView regionNameTextView;
-        private TextView TempTextView;
-        private CheckBox deleteCheckBox; // 삭제 모드에서 사용되는 체크박스
-
+        private final TextView regionNameTextView;
+        private final TextView TempTextView;
+        private final CheckBox deleteCheckBox; // 삭제 모드에서 사용되는 체크박스
 
         public WeatherViewHolder(@NonNull View itemView) {
             super(itemView);
-            regionNameTextView = itemView.findViewById(R.id.regionNameTextView);
+            regionNameTextView = itemView.findViewById(R.id.regionNameTextViewCard);
             TempTextView = itemView.findViewById(R.id.TempTextView);
             deleteCheckBox = itemView.findViewById(R.id.Region_checkBox);
         }
@@ -101,31 +97,20 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             if (weatherItem != null && "TMP".equals(weatherItem.category)) {
                 TempTextView.setText(weatherItem.fcstValue + "°");
                 TempTextView.setVisibility(View.VISIBLE);
+                Log.d("WeatherAdapter", "WeatherAdapter: "+ weatherItem.fcstValue);
             } else {
                 TempTextView.setVisibility(View.GONE);
+                Log.d("WeatherAdapter", "WeatherAdapter: null");
             }
 
             // 삭제 모드에 따라 체크박스의 가시성을 설정
             deleteCheckBox.setVisibility(isDeleteMode ? View.VISIBLE : View.GONE);
             deleteCheckBox.setChecked(regionWeatherData.isSelected());
 
-            // 체크박스 클릭 시 선택 상태 변경
-            deleteCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    regionWeatherData.setSelected(isChecked);
-                }
-            });
-        }
-
-    }
-
-    public void clearWeatherItems() {
-        if (regionWeatherDataList != null) {
-            regionWeatherDataList.clear();
-            notifyDataSetChanged();
+            deleteCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> regionWeatherData.setSelected(isChecked));
         }
     }
 }
+
 
 

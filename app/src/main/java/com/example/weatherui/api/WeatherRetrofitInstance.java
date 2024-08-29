@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitInstance {
+public class WeatherRetrofitInstance {
 
     private static Retrofit weatherretrofit = null;
     private static final String WEATHER_BASE_URL = "https://apis.data.go.kr/1360000/";
