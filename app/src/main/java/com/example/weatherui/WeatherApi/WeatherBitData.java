@@ -27,6 +27,15 @@ public class WeatherBitData {
         @SerializedName("temp")
         private float temperature;
 
+        @SerializedName("pop")
+        private int precipitationProbability;
+
+        @SerializedName("precip")
+        private float precipitationAmount;
+
+        @SerializedName("clouds")
+        private int cloudCoverage;
+
         @SerializedName("weather")
         private Weather weather;
 
@@ -36,6 +45,18 @@ public class WeatherBitData {
 
         public float getTemperature() {
             return temperature;
+        }
+
+        public int getPrecipitationProbability() {
+            return precipitationProbability;
+        }
+
+        public float getPrecipitationAmount() {
+            return precipitationAmount;
+        }
+
+        public int getCloudCoverage() {
+            return cloudCoverage;
         }
 
         public Weather getWeather() {

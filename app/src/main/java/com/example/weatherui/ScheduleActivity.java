@@ -16,15 +16,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weatherui.Location.ConvertLocation;
+import com.example.weatherui.WeatherApi.WeatherBitApiInterface;
+import com.example.weatherui.WeatherApi.WeatherBitData;
+import com.example.weatherui.WeatherApi.WeatherBitRepository;
+import com.example.weatherui.WeatherApi.WeatherBitRetrofitInstance;
+import com.example.weatherui.WeatherApi.WeatherBitViewModel;
+import com.example.weatherui.WeatherApi.WeatherBitViewModelFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ScheduleActivity extends AppCompatActivity {
@@ -32,8 +44,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private List<Event> eventList = new ArrayList<>();
-    private boolean isDeleteMode = false;
-    private Button deleteButton;
+    private WeatherBitViewModel weatherBitViewModel;
+    private final String WEATHERBIT_API_KEY = "7ccd4cb73f7948088d46b23d9b41ce3b";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,56 +53,43 @@ public class ScheduleActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_schedule);
 
+        // ViewModel 초기화
+        WeatherBitRepository repository = new WeatherBitRepository(
+                WeatherBitRetrofitInstance.getWeatherRetrofitInstance().create(WeatherBitApiInterface.class)
+        );
+        WeatherBitViewModelFactory factory = new WeatherBitViewModelFactory(repository);
+        weatherBitViewModel = new ViewModelProvider(this, factory).get(WeatherBitViewModel.class);
+
         setupUI();
         setupRecyclerView();
         loadEvents();
+
+        // 날씨 데이터를 가져오는 로직
+        fetchWeatherForEvents();
     }
 
     private void setupUI() {
         ImageView buttonBack = findViewById(R.id.iv_schedule_backarrow);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToMainActivity();
-            }
-        });
+        buttonBack.setOnClickListener(view -> navigateToMainActivity());
 
         ImageView optionsButton = findViewById(R.id.iv_schedule_optionsButton);
-        optionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(v);
-            }
-        });
+        optionsButton.setOnClickListener(this::showPopupMenu);
 
-        deleteButton = findViewById(R.id.btn_schedule_deleteButton);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteSelectedEvents();
-            }
-        });
+        Button deleteButton = findViewById(R.id.btn_schedule_deleteButton);
+        deleteButton.setOnClickListener(v -> deleteSelectedEvents());
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), new androidx.core.view.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            }
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
         });
     }
 
     private void setupRecyclerView() {
-        recyclerView = findViewById(R.id.rv_scheduleActivity_recyclerview);
+        recyclerView = findViewById(R.id.rv_schedule_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventAdapter = new EventAdapter(eventList);
         recyclerView.setAdapter(eventAdapter);
-    }
-
-    private void navigateToMainActivity() {
-        Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(backIntent);
     }
 
     private void loadEvents() {
@@ -104,29 +103,77 @@ public class ScheduleActivity extends AppCompatActivity {
             String json = (String) entry.getValue();
             Event event = gson.fromJson(json, eventType);
             eventList.add(event);
-            Log.d("LoadEvent", "Loaded event: " + entry.getKey() + " -> " + json);
+        }
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    private void fetchWeatherForEvents() {
+        for (Event event : eventList) {
+            ConvertLocation.LatLon latLon = ConvertLocation.convertToLatLon(
+                    Integer.parseInt(event.getRegion().getNx()),
+                    Integer.parseInt(event.getRegion().getNy())
+            );
+            weatherBitViewModel.fetchWeatherByLatLon(
+                    String.valueOf(latLon.lat),
+                    String.valueOf(latLon.lon),
+                    WEATHERBIT_API_KEY
+            );
         }
 
-        Log.d("LoadEvent", "Total events loaded: " + eventList.size());
+        weatherBitViewModel.getWeatherData().observe(this, weatherData -> {
+            if (weatherData != null && !weatherData.getData().isEmpty()) {
+                updateWeatherInEvents(weatherData);
+            }
+        });
+    }
+
+    private void updateWeatherInEvents(WeatherBitData weatherData) {
+        for (Event event : eventList) {
+            for (WeatherBitData.DailyForecast forecast : weatherData.getData()) {
+                String formattedValidDate = forecast.getValidDate().replace("-", "");
+                String eventDateFormatted = convertDateToYYYYMMDD(event.getDate());
+
+                if (formattedValidDate.equals(eventDateFormatted)) {
+                    event.setTemperature(forecast.getTemperature());
+                    event.setPrecipitationAmount(forecast.getPrecipitationAmount());
+                    event.setPrecipitationProbability(forecast.getPrecipitationProbability());
+                    event.setCloudCoverage(forecast.getCloudCoverage());
+                    break;
+                }
+            }
+        }
         eventAdapter.notifyDataSetChanged();
+    }
+
+    private String convertDateToYYYYMMDD(String eventDate) {
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy년 M월 d일 a h시", Locale.KOREA);
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+        try {
+            Date date = originalFormat.parse(eventDate);
+            return targetFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void navigateToMainActivity() {
+        Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(backIntent);
     }
 
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.menu_add) {
-                    return true;
-                } else if (itemId == R.id.menu_delete) {
-                    toggleDeleteMode(true);
-                    return true;
-                } else {
-                    return false;
-                }
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_add) {
+                return true;
+            } else if (item.getItemId() == R.id.menu_delete) {
+                toggleDeleteMode(true);
+                return true;
+            } else {
+                return false;
             }
         });
         popupMenu.show();
@@ -147,7 +194,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
                     if (storedEvent.getTitle().equals(event.getTitle()) && storedEvent.getDate().equals(event.getDate())) {
                         editor.remove(entry.getKey());
-                        Log.d("DeleteEvent", "Removing event with key: " + entry.getKey());
                         break;
                     }
                 }
@@ -155,22 +201,14 @@ public class ScheduleActivity extends AppCompatActivity {
         }
 
         editor.apply();
-
         eventList.removeAll(selectedEvents);
         eventAdapter.notifyDataSetChanged();
-
-        Log.d("DeleteEvent", "Selected events removed. Total remaining events: " + eventList.size());
-
         toggleDeleteMode(false);
     }
 
     private void toggleDeleteMode(boolean enable) {
-        isDeleteMode = enable;
         eventAdapter.setDeleteMode(enable);
-        if (enable) {
-            deleteButton.setVisibility(View.VISIBLE);
-        } else {
-            deleteButton.setVisibility(View.GONE);
-        }
+        findViewById(R.id.btn_schedule_deleteButton).setVisibility(enable ? View.VISIBLE : View.GONE);
     }
 }
+

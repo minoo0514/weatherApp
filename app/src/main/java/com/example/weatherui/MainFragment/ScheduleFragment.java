@@ -34,7 +34,9 @@ import com.example.weatherui.ScheduleActivity;
 import com.example.weatherui.WeatherApi.WeatherBitApiInterface;
 import com.example.weatherui.WeatherApi.WeatherBitData;
 import com.example.weatherui.WeatherApi.WeatherBitRepository;
+import com.example.weatherui.WeatherApi.WeatherBitRetrofitInstance;
 import com.example.weatherui.WeatherApi.WeatherBitViewModel;
+import com.example.weatherui.WeatherApi.WeatherBitViewModelFactory;
 import com.example.weatherui.api.WeatherRetrofitInstance;
 import com.example.weatherui.api.WeatherApiInterface;
 import com.example.weatherui.api.WeatherData;
@@ -55,11 +57,11 @@ import java.util.Objects;
 
 public class ScheduleFragment extends Fragment {
 
-    //WeatherBit 변수
+    // WeatherBit 변수
     private WeatherBitViewModel weatherBitViewModel;
     private final String WEATHERBIT_API_KEY = "7ccd4cb73f7948088d46b23d9b41ce3b";
 
-    //일정 변수
+    // 일정 변수
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private List<Event> eventList = new ArrayList<>();
@@ -87,15 +89,6 @@ public class ScheduleFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ScheduleFragment newInstance(String param1, String param2) {
-        ScheduleFragment fragment = new ScheduleFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +96,14 @@ public class ScheduleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
+        WeatherBitRepository repository = new WeatherBitRepository(
+                WeatherBitRetrofitInstance.getWeatherRetrofitInstance().create(WeatherBitApiInterface.class)
+        );
+        WeatherBitViewModelFactory factory = new WeatherBitViewModelFactory(repository);
+        weatherBitViewModel = new ViewModelProvider(this, factory).get(WeatherBitViewModel.class);
     }
 
 
@@ -121,6 +122,11 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
+        Button goToScheduleButton = view.findViewById(R.id.btn_tempFragment_goSch);
+        goToScheduleButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ScheduleActivity.class);
+            startActivity(intent);
+        });
 
         tv_main_tempNow = view.findViewById(R.id.tv_main_tempNow);
         tv_main_weatherCondition = view.findViewById(R.id.tv_main_weatherCondition);
@@ -143,31 +149,21 @@ public class ScheduleFragment extends Fragment {
 
         fetchCurrentLocationAndWeather();
 
-        // WeatherBitViewModel 초기화
-        WeatherBitApiInterface weatherBitApiInterface = WeatherBitApiInterface.getWeatherBitRetrofitInstance().create(WeatherBitApiInterface.class);
-        WeatherBitViewModel weatherBitViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new WeatherBitViewModel(new WeatherBitRepository(weatherBitApiInterface));
-            }
-        }).get(WeatherBitViewModel.class);
-
         recyclerView = view.findViewById(R.id.rv_schedule_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         eventAdapter = new EventAdapter(eventList);
         recyclerView.setAdapter(eventAdapter);
 
-        loadEvents();
-
-        Button goToScheduleButton = view.findViewById(R.id.btn_tempFragment_goSch);
-        goToScheduleButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ScheduleActivity.class);
-            startActivity(intent);
-        });
+        loadEventsAndFetchWeather();
 
         return view;
     }
+
+    private void loadEventsAndFetchWeather() {
+        loadEvents();
+        fetchWeatherForEvents();
+    }
+
 
     private void fetchCurrentLocationAndWeather() {
         getLocation.fetchLocation(new OnSuccessListener<Location>() {
@@ -194,6 +190,7 @@ public class ScheduleFragment extends Fragment {
         });
     }
 
+    // 현재 위치에 따른 api 요청
     private void fetchWeatherWithLocation(String nx, String ny) {
         String currentDate = getTime.getCurrentDate();
         String currentTime = getTime.getCurrentTime();
@@ -313,32 +310,10 @@ public class ScheduleFragment extends Fragment {
             String json = (String) entry.getValue();
             Event event = gson.fromJson(json, eventType);
             eventList.add(event);
-            Log.d("LoadEvent", "Loaded event: " + entry.getKey() + " -> " + json);
         }
 
-        Log.d("LoadEvent", "Total events loaded: " + eventList.size());
-        eventAdapter.notifyDataSetChanged(); // 데이터 변경 알림
-    }
-
-    // 새롭게 추가된 WeatherBit API 요청 함수
-    private void fetchWeatherForEvent(Event event) {
-        if (event.getRegion() != null) {
-            String lat = event.getRegion().getNx(); // 격자 x를 위도로 변환
-            String lon = event.getRegion().getNy(); // 격자 y를 경도로 변환
-
-            weatherBitViewModel.fetchWeatherByLatLon(lat, lon, WEATHERBIT_API_KEY, 1);
-            weatherBitViewModel.getWeatherData().observe(getViewLifecycleOwner(), new Observer<WeatherBitData>() {
-                @Override
-                public void onChanged(WeatherBitData weatherData) {
-                    if (weatherData != null && weatherData.getData() != null && !weatherData.getData().isEmpty()) {
-                        WeatherBitData.DailyForecast forecast = weatherData.getData().get(0);
-                        event.setWeatherDescription(forecast.getWeather().getDescription());
-                        event.setTemperature(forecast.getTemperature());
-                        eventAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
+        // 이 시점에서 날씨 데이터를 가져옵니다
+        fetchWeatherForEvents();
     }
 
     private String getNextHour(String currentTime) {
@@ -366,5 +341,55 @@ public class ScheduleFragment extends Fragment {
         super.onResume();
         eventList.clear();
         loadEvents();
+    }
+
+    private void fetchWeatherForEvents() {
+        for (Event event : eventList) {
+            ConvertLocation.LatLon latLon = ConvertLocation.convertToLatLon(
+                    Integer.parseInt(event.getRegion().getNx()),
+                    Integer.parseInt(event.getRegion().getNy())
+            );
+            weatherBitViewModel.fetchWeatherByLatLon(
+                    String.valueOf(latLon.lat),
+                    String.valueOf(latLon.lon),
+                    WEATHERBIT_API_KEY
+            );
+        }
+
+        weatherBitViewModel.getWeatherData().observe(getViewLifecycleOwner(), weatherData -> {
+            if (weatherData != null && !weatherData.getData().isEmpty()) {
+                updateWeatherInEvents(weatherData);
+            }
+        });
+    }
+
+    private void updateWeatherInEvents(WeatherBitData weatherData) {
+        for (Event event : eventList) {
+            for (WeatherBitData.DailyForecast forecast : weatherData.getData()) {
+                String formattedValidDate = forecast.getValidDate().replace("-", "");
+                String eventDateFormatted = convertDateToYYYYMMDD(event.getDate());
+
+                if (formattedValidDate.equals(eventDateFormatted)) {
+                    event.setTemperature(forecast.getTemperature());
+                    event.setPrecipitationAmount(forecast.getPrecipitationAmount());
+                    event.setPrecipitationProbability(forecast.getPrecipitationProbability());
+                    event.setCloudCoverage(forecast.getCloudCoverage());
+                    break;
+                }
+            }
+        }
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    private String convertDateToYYYYMMDD(String eventDate) {
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy년 M월 d일 a h시", Locale.KOREA);
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+        try {
+            Date date = originalFormat.parse(eventDate);
+            return targetFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

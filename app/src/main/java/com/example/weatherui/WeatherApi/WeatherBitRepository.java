@@ -20,8 +20,8 @@ public class WeatherBitRepository {
         return weatherData;
     }
 
-    public void fetchWeatherByLatLon(String latitude, String longitude, String apiKey, int days) {
-        weatherApi.getDailyForecast(latitude, longitude, apiKey, days).enqueue(new Callback<WeatherBitData>() {
+    public void fetchWeatherByLatLon(String latitude, String longitude, String apiKey) {
+        weatherApi.getDailyForecast(latitude, longitude, apiKey).enqueue(new Callback<WeatherBitData>() {
             @Override
             public void onResponse(Call<WeatherBitData> call, Response<WeatherBitData> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -36,3 +36,4 @@ public class WeatherBitRepository {
         });
     }
 }
+

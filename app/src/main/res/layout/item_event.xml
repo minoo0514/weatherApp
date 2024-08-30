@@ -64,13 +64,14 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/region_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="서대문구 신촌동"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
@@ -80,16 +81,16 @@
                     android:orientation="horizontal"
                     android:gravity="end"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView">
+                    app:layout_constraintTop_toBottomOf="@id/region_text_view">
 
                     <ImageView
-                        android:id="@+id/Weather_ImageView"
+                        android:id="@+id/weather_icon_image_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/a_cloud_16dp" />
+                        android:src="@drawable/a_cloud_25dp" />
 
                     <TextView
-                        android:id="@+id/temp_rainPrecipitationView"
+                        android:id="@+id/precipitation_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -110,7 +111,7 @@
                     app:layout_constraintTop_toBottomOf="@id/linearLayout">
 
                     <TextView
-                        android:id="@+id/temp_textView"
+                        android:id="@+id/temperature_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="7dp"
@@ -119,7 +120,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/temp_rainView"
+                        android:id="@+id/rain_probability_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"

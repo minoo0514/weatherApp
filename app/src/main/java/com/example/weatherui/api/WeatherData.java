@@ -80,9 +80,7 @@ public class WeatherData {
     public String getFcstValue(String category, String fcstDate, String fcstTime) {
         if (response != null && response.body != null && response.body.items != null) {
             for (Item item : response.body.items.itemList) {
-                Log.d("WeatherData", "Checking item: " + item.category + ", " + item.fcstDate + ", " + item.fcstTime);
                 if (item.category.equals(category) && item.fcstDate.equals(fcstDate) && item.fcstTime.equals(fcstTime)) {
-                    Log.d("WeatherData", "Found matching item: " + item.fcstValue);
                     return item.fcstValue;
                 }
             }

@@ -10,8 +10,7 @@ public interface WeatherBitApiInterface {
     Call<WeatherBitData> getDailyForecast(
             @Query("lat") String latitude,
             @Query("lon") String longitude,
-            @Query("key") String apiKey,
-            @Query("days") int days
+            @Query("key") String apiKey
     );
 }
 

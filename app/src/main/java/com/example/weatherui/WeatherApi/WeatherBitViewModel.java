@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel;
 
 public class WeatherBitViewModel extends ViewModel {
 
-    private WeatherBitRepository repository;
-    private LiveData<WeatherBitData> weatherData;
+    private final WeatherBitRepository repository;
+    private final LiveData<WeatherBitData> weatherData;
 
+    // WeatherBitRepository를 사용하는 생성자
     public WeatherBitViewModel(WeatherBitRepository repository) {
         this.repository = repository;
         this.weatherData = repository.getWeatherData();
@@ -17,7 +18,8 @@ public class WeatherBitViewModel extends ViewModel {
         return weatherData;
     }
 
-    public void fetchWeatherByLatLon(String latitude, String longitude, String apiKey, int days) {
-        repository.fetchWeatherByLatLon(latitude, longitude, apiKey, days);
+    public void fetchWeatherByLatLon(String latitude, String longitude, String apiKey) {
+        repository.fetchWeatherByLatLon(latitude, longitude, apiKey);
     }
 }
+

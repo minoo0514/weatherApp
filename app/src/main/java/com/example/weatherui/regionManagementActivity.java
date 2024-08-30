@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -85,6 +86,12 @@ public class regionManagementActivity extends AppCompatActivity {
             if (regionWeatherData.isSelected()) {
                 selectedRegions.add(regionWeatherData);
             }
+        }
+
+        if (selectedRegions.isEmpty()) {
+            // 선택된 지역이 없을 경우 알림 표시
+            Toast.makeText(this, "선택된 지역이 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         regionViewModel.removeRegions(selectedRegions);
